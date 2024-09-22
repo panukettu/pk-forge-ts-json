@@ -54,43 +54,43 @@ Above snippet generates the following solidity at `src/Types.sol`:
 pragma solidity ^0.8.0;
 
 interface ITypes {
-		struct Bar {
-				Foo foo;
-				string abc;
-				BarSimilar similar;
-				BarBaz baz;
-		}
+	struct Bar {
+		Foo foo;
+		string abc;
+		BarSimilar similar;
+		BarBaz baz;
+	}
 
 	struct BarSimilar {
-				Foo foo;
-				uint256 bar;
-				int256 amount;
-		}
+		Foo foo;
+		uint256 bar;
+		int256 amount;
+	}
 
 	struct BarBaz {
-				bytes val;
-				bytes32 val2;
-				address addr;
-				Foo foo;
-				BarSimilar similar2;
-		}
+		bytes val;
+		bytes32 val2;
+		address addr;
+		Foo foo;
+		BarSimilar similar2;
+	}
 
 	struct Foo {
-				uint256 amount;
-				uint256 amountETH;
-				int256 value;
-				string description;
-				FooQux qux;
-		}
+		uint256 amount;
+		uint256 amountETH;
+		int256 value;
+		string description;
+		FooQux qux;
+	}
 
 	struct FooQux {
-				bool enabled;
-				uint256[] values;
-		}
+		bool enabled;
+		uint256[] values;
+	}
 
 	struct Baz {
-				string c;
-		}
+		string c;
+	}
 }
 
 contract Types is ITypes {
