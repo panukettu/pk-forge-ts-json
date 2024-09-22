@@ -1,0 +1,20 @@
+{
+  "name": "@pkxp/forge-ts-json",
+  "description": "Writes object keys to JSON files and generates solidity types and getters for them.",
+  "type": "module",
+  "module": "index.ts",
+  "repository": {
+    "url": "https://github.com/panukettu/pk-forge-ts-json"
+  },
+  "author": {
+    "url": "https://0xp.lol",
+    "name": "panukettu"
+  },
+  "scripts": {
+    "test": "cd test && bun test"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0",
+    "@types/bun": "latest"
+  }
+}
