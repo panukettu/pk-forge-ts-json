@@ -2,6 +2,10 @@
 
 Writes object keys to JSON files and generates solidity types and getters for them.
 
+## Install
+
+`bun i @pkxp/forge-ts-json` or `forge install panukettu/pk-forge-ts-json`
+
 ## Input
 
 ```typescript
