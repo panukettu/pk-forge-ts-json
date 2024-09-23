@@ -16,7 +16,7 @@
     "test": "cd test && bun test"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
   }
 }

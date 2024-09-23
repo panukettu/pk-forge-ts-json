@@ -8,40 +8,40 @@ Writes object keys to JSON files and generates solidity types and getters for th
 import { toSolidityJSON } from '@pkxp/forge-ts-json';
 
 const foo = {
-	amount: 1,
-	amountETH: 10_000e18,
-	value: -11e16,
-	description: 'hello',
-	qux: {
-		enabled: true,
-		values: [1, 2, 3],
-	},
+  amount: 1,
+  amountETH: 10_000.15e18,
+  value: -11e16,
+  description: 'hello',
+  qux: {
+    enabled: true,
+    values: [1, 2, 3],
+  },
 };
 
 const bar = {
-	foo,
-	abc: 'def',
-	similar: {
-		foo,
-		bar: 10,
-		amount: -10,
-	},
-	baz: {
-		val: '0x12342AAABBBCCCDDDDDDDDDD111111111111111121491294219491294129491249129491',
-		val2: '0x12342AAABBBCCCDDDDDDDDDD1111111111111111214912',
-		addr: '0x12342AAABBBCCCDDDDDDDDDD1111111111111111',
-		foo,
-		similar2: {
-			foo,
-			bar: 10,
-			amount: -15,
-		},
-	},
+  foo,
+  abc: 'def',
+  similar: {
+    foo,
+    bar: 10,
+    amount: -10,
+  },
+  baz: {
+    val: '0x12342AAABBBCCCDDDDDDDDDD111111111111111121491294219491294129491249129491',
+    val2: '0x12342AAABBBCCCDDDDDDDDDD1111111111111111214912',
+    addr: '0x12342AAABBBCCCDDDDDDDDDD1111111111111111',
+    foo,
+    similar2: {
+      foo,
+      bar: 10,
+      amount: -15,
+    },
+  },
 };
 
 toSolidityJSON(
-	{ bar, foo, baz: { c: 'd' }, foo2: foo, baz2: { c: 'd' } },
-	{ name: 'Types', dirJSON: 'temp', dirSOL: 'src' } // all optional, dirSOL default is 'profile.default.src' from foundry.toml
+  { bar, foo, baz: { c: 'd' }, foo2: foo, baz2: { c: 'd' } },
+  { name: 'Types', dirJSON: 'temp', dirSOL: 'src' } // all optional, dirSOL default is 'profile.default.src' from foundry.toml
 );
 ```
 
@@ -54,73 +54,73 @@ Above snippet generates the following solidity at `src/Types.sol`:
 pragma solidity ^0.8.0;
 
 interface ITypes {
-	struct Bar {
-		Foo foo;
-		string abc;
-		BarSimilar similar;
-		BarBaz baz;
-	}
+		struct Bar {
+				Foo foo;
+				string abc;
+				BarSimilar similar;
+				BarBaz baz;
+		}
 
-	struct BarSimilar {
-		Foo foo;
-		uint256 bar;
-		int256 amount;
-	}
+  	struct BarSimilar {
+				Foo foo;
+				uint256 bar;
+				int256 amount;
+		}
 
-	struct BarBaz {
-		bytes val;
-		bytes32 val2;
-		address addr;
-		Foo foo;
-		BarSimilar similar2;
-	}
+  	struct BarBaz {
+				bytes val;
+				bytes32 val2;
+				address addr;
+				Foo foo;
+				BarSimilar similar2;
+		}
 
-	struct Foo {
-		uint256 amount;
-		uint256 amountETH;
-		int256 value;
-		string description;
-		FooQux qux;
-	}
+  	struct Foo {
+				uint256 amount;
+				uint256 amountETH;
+				int256 value;
+				string description;
+				FooQux qux;
+		}
 
-	struct FooQux {
-		bool enabled;
-		uint256[] values;
-	}
+  	struct FooQux {
+				bool enabled;
+				uint256[] values;
+		}
 
-	struct Baz {
-		string c;
-	}
+  	struct Baz {
+				string c;
+		}
 }
 
 contract Types is ITypes {
-  address private constant vm = address(uint160(uint256(keccak256("hevm cheat code"))));
+		address private constant vm = address(uint160(uint256(keccak256("hevm cheat code"))));
 
-  function getBar() internal virtual view returns (Bar memory) {
-      return abi.decode(getJSON("bar.json"), (Bar));
-  }
+    function getBar() internal virtual view returns (Bar memory) {
+        return abi.decode(getJSON("bar.json"), (Bar));
+    }
 
-  function getFoo() internal virtual view returns (Foo memory) {
-      return abi.decode(getJSON("foo.json"), (Foo));
-  }
+    function getFoo() internal virtual view returns (Foo memory) {
+        return abi.decode(getJSON("foo.json"), (Foo));
+    }
 
-  function getBaz() internal virtual view returns (Baz memory) {
-      return abi.decode(getJSON("baz.json"), (Baz));
-  }
+    function getBaz() internal virtual view returns (Baz memory) {
+        return abi.decode(getJSON("baz.json"), (Baz));
+    }
 
-  function getFoo2() internal virtual view returns (Foo memory) {
-      return abi.decode(getJSON("foo2.json"), (Foo));
-  }
+    function getFoo2() internal virtual view returns (Foo memory) {
+        return abi.decode(getJSON("foo2.json"), (Foo));
+    }
 
-  function getBaz2() internal virtual view returns (Baz memory) {
-      return abi.decode(getJSON("baz2.json"), (Baz));
-  }
+    function getBaz2() internal virtual view returns (Baz memory) {
+        return abi.decode(getJSON("baz2.json"), (Baz));
+    }
 
-  function getJSON(string memory path) private view returns (bytes memory) {
-    (, bytes memory data) = vm.staticcall(bytes.concat(hex'60f9bb11', abi.encode(path)));
-    (, bytes memory json) = vm.staticcall(bytes.concat(hex'6a82600a', data));
-    return abi.decode(json, (bytes));
-  }
+		function getJSON(string memory path) private view returns (bytes memory) {
+			(, bytes memory data) = vm.staticcall(bytes.concat(hex'60f9bb11', abi.encode(path)));
+			(, bytes memory json) = vm.staticcall(bytes.concat(hex'6a82600a', data));
+			return abi.decode(json, (bytes));
+		}
 }
 ```
 
@@ -132,63 +132,59 @@ All inner keys are renamed to match struct order when parsing in solidity, eg. `
 
 ```json
 {
-	"00_foo": {
-		"00_amount": 1,
-		"01_amountETH": 1e22,
-		"02_value": -110000000000000000,
-		"03_description": "hello",
-		"04_qux": {
-			"00_enabled": true,
-			"01_values": [1, 2, 3]
-		}
-	},
-	"01_abc": "def",
-	"02_similar": {
-		"00_foo": {
-			"00_amount": 1,
-			"01_amountETH": 1e22,
-			"02_value": -110000000000000000,
-			"03_description": "hello",
-			"04_qux": {
-				"00_enabled": true,
-				"01_values": [1, 2, 3]
-			}
-		},
-		"01_bar": 10,
-		"02_amount": -10
-	},
-	"03_baz": {
-		"00_val": "0x12342AAABBBCCCDDDDDDDDDD111111111111111121491294219491294129491249129491",
-		"01_val2": "0x12342AAABBBCCCDDDDDDDDDD1111111111111111214912",
-		"02_addr": "0x12342AAABBBCCCDDDDDDDDDD1111111111111111",
-		"03_foo": {
-			"00_amount": 1,
-			"01_amountETH": 1e22,
-			"02_value": -110000000000000000,
-			"03_description": "hello",
-			"04_qux": {
-				"00_enabled": true,
-				"01_values": [1, 2, 3]
-			}
-		},
-		"04_similar2": {
-			"00_foo": {
-				"00_amount": 1,
-				"01_amountETH": 1e22,
-				"02_value": -110000000000000000,
-				"03_description": "hello",
-				"04_qux": {
-					"00_enabled": true,
-					"01_values": [1, 2, 3]
-				}
-			},
-			"01_bar": 10,
-			"02_amount": -15
-		}
-	}
+  "00_foo": {
+    "00_amount": 1,
+    "01_amountETH": 1.000015e22,
+    "02_value": -110000000000000000,
+    "03_description": "hello",
+    "04_qux": {
+      "00_enabled": true,
+      "01_values": [1, 2, 3]
+    }
+  },
+  "01_abc": "def",
+  "02_similar": {
+    "00_foo": {
+      "00_amount": 1,
+      "01_amountETH": 1.000015e22,
+      "02_value": -110000000000000000,
+      "03_description": "hello",
+      "04_qux": {
+        "00_enabled": true,
+        "01_values": [1, 2, 3]
+      }
+    },
+    "01_bar": 10,
+    "02_amount": -10
+  },
+  "03_baz": {
+    "00_val": "0x12342AAABBBCCCDDDDDDDDDD111111111111111121491294219491294129491249129491",
+    "01_val2": "0x12342AAABBBCCCDDDDDDDDDD1111111111111111214912",
+    "02_addr": "0x12342AAABBBCCCDDDDDDDDDD1111111111111111",
+    "03_foo": {
+      "00_amount": 1,
+      "01_amountETH": 1.000015e22,
+      "02_value": -110000000000000000,
+      "03_description": "hello",
+      "04_qux": {
+        "00_enabled": true,
+        "01_values": [1, 2, 3]
+      }
+    },
+    "04_similar2": {
+      "00_foo": {
+        "00_amount": 1,
+        "01_amountETH": 1.000015e22,
+        "02_value": -110000000000000000,
+        "03_description": "hello",
+        "04_qux": {
+          "00_enabled": true,
+          "01_values": [1, 2, 3]
+        }
+      },
+      "01_bar": 10,
+      "02_amount": -15
+    }
+  }
 }
-```
-
-```
-
 ```
