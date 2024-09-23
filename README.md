@@ -4,7 +4,7 @@ Writes object keys to JSON files and generates solidity types and getters for th
 
 ## Install
 
-`bun i @pkxp/forge-ts-json` or `forge install panukettu/pk-forge-ts-json`
+`bun i @pkxp/forge-ts-json` or `forge install panukettu/pkxp-forge-ts-json`
 
 ## Input
 
