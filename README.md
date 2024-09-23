@@ -54,73 +54,73 @@ Above snippet generates the following solidity at `src/Types.sol`:
 pragma solidity ^0.8.0;
 
 interface ITypes {
-		struct Bar {
-				Foo foo;
-				string abc;
-				BarSimilar similar;
-				BarBaz baz;
-		}
+	struct Bar {
+		Foo foo;
+		string abc;
+		BarSimilar similar;
+		BarBaz baz;
+	}
 
-  	struct BarSimilar {
-				Foo foo;
-				uint256 bar;
-				int256 amount;
-		}
+	struct BarSimilar {
+		Foo foo;
+		uint256 bar;
+		int256 amount;
+	}
 
-  	struct BarBaz {
-				bytes val;
-				bytes32 val2;
-				address addr;
-				Foo foo;
-				BarSimilar similar2;
-		}
+	struct BarBaz {
+		bytes val;
+		bytes32 val2;
+		address addr;
+		Foo foo;
+		BarSimilar similar2;
+	}
 
-  	struct Foo {
-				uint256 amount;
-				uint256 amountETH;
-				int256 value;
-				string description;
-				FooQux qux;
-		}
+	struct Foo {
+		uint256 amount;
+		uint256 amountETH;
+		int256 value;
+		string description;
+		FooQux qux;
+	}
 
-  	struct FooQux {
-				bool enabled;
-				uint256[] values;
-		}
+	struct FooQux {
+		bool enabled;
+		uint256[] values;
+	}
 
-  	struct Baz {
-				string c;
-		}
+	struct Baz {
+		string c;
+	}
 }
 
 contract Types is ITypes {
-		address private constant vm = address(uint160(uint256(keccak256("hevm cheat code"))));
+	address private constant vm = address(uint160(uint256(keccak256("hevm cheat code"))));
 
-    function getBar() internal virtual view returns (Bar memory) {
-        return abi.decode(getJSON("bar.json"), (Bar));
-    }
+	function getBar() internal virtual view returns (Bar memory) {
+		return abi.decode(getJSON("bar.json"), (Bar));
+	}
 
-    function getFoo() internal virtual view returns (Foo memory) {
-        return abi.decode(getJSON("foo.json"), (Foo));
-    }
+	function getFoo() internal virtual view returns (Foo memory) {
+		return abi.decode(getJSON("foo.json"), (Foo));
+	}
 
-    function getBaz() internal virtual view returns (Baz memory) {
-        return abi.decode(getJSON("baz.json"), (Baz));
-    }
+	function getBaz() internal virtual view returns (Baz memory) {
+		return abi.decode(getJSON("baz.json"), (Baz));
+	}
 
-    function getFoo2() internal virtual view returns (Foo memory) {
-        return abi.decode(getJSON("foo2.json"), (Foo));
-    }
+	function getFoo2() internal virtual view returns (Foo memory) {
+		return abi.decode(getJSON("foo2.json"), (Foo));
+	}
 
-    function getBaz2() internal virtual view returns (Baz memory) {
-        return abi.decode(getJSON("baz2.json"), (Baz));
-    }
+	function getBaz2() internal virtual view returns (Baz memory) {
+		return abi.decode(getJSON("baz2.json"), (Baz));
+	}
 
-		function getJSON(string memory path) private view returns (bytes memory) {
-			(, bytes memory data) = vm.staticcall(bytes.concat(hex'60f9bb11', abi.encode(path)));
-			(, bytes memory json) = vm.staticcall(bytes.concat(hex'6a82600a', data));
-			return abi.decode(json, (bytes));
-		}
+	function getJSON(string memory path) private view returns (bytes memory) {
+		(, bytes memory data) = vm.staticcall(bytes.concat(hex'60f9bb11', abi.encode(path)));
+		(, bytes memory json) = vm.staticcall(bytes.concat(hex'6a82600a', data));
+		return abi.decode(json, (bytes));
+	}
 }
 ```
 
