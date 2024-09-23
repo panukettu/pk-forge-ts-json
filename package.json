@@ -1,5 +1,6 @@
 {
   "name": "@pkxp/forge-ts-json",
+  "private": false,
   "version": "1.0.0",
   "description": "Writes object keys to JSON files and generates solidity types and getters for them.",
   "type": "module",
